@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise Async Await</title>
+    <style>
+        body{
+            background-color: bisque;
+        }
+        h2,pre{
+            color: rgb(244, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <h2>
+        Q1 => Write one example explaining how you can write a callback function.
+        <pre>
+            Ans : 
+            function calculate(num1, num2, callback) {
+                console.log("Calculating...");
+                const result = num1 + num2;
+                callback(result);
+            }
+            
+            function displayResult(result) {
+                console.log("The result is: " + result);
+            }
+            
+            calculate(30, 10, displayResult);            
+        </pre>
+        <br/>
+
+        <br/>
+        Q2 => Write a callback function to print numbers from 1 to 7, in which 1 should be printed after 1 sec, 2 should be printed after 2 sec, 3 should be printed after 3 sec, and so on. <br/>
+
+        Explain callback hell.<br/>
+        Numbers
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        <pre>
+            Ans : function printNumberWithDelay(number, delay, callback) {
+                setTimeout(function() {
+                    console.log(number);
+                    callback();
+                }, delay);
+            }
+            
+            function printNumbersSequentially(start, end) {
+                let currentNumber = start;
+            
+                function printNextNumber() {
+                    if (currentNumber < = end) {
+                        printNumberWithDelay(currentNumber, currentNumber * 1000, printNextNumber);
+                        currentNumber++;
+                    }
+                }
+            
+                printNextNumber();
+            }
+            
+            printNumbersSequentially(1, 7);
+            
+              Callback Hell : Callback hell, also known as the "pyramid of doom," refers to a situation in asynchronous programming where multiple nested callback
+              functions make the code difficult to read and maintain. It can occur when you have a series of asynchronous
+              operations that depend on each other, leading to deeply nested callback functions. This can make the code
+              hard to understand, debug, and modify.
+        </pre>
+        <br/>
+
+        <br/>
+        Q3 =>Write the promise function to print numbers from 1 to 7, in which 1 should be printed after 1 sec, 2 should be printed after 2 sec, 3 should be printed after 3 sec, and so on.<br/>
+
+        Numbers<br/>
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        <pre>
+            Ans : function delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            
+            async function printNumbers() {
+                for (let i = 1; i <= 7; i++) {
+                    console.log(i);
+                    await delay(i * 1000);
+                }
+            }
+            
+            printNumbers();            
+        </pre>
+        <br/>
+
+        <br/>
+        Q4 => Create a promise function accepting an argument, if yes is passed to the function then it should
+         go to resolved state and print Promise Resolved, and if nothing is passed 
+        then it should go to reject the state and catch the error and print Promise Rejected .
+        <pre>
+            Ans : function checkPromise(input) {
+                return new Promise((resolve, reject) => {
+                    if (input === 'yes') {
+                        resolve('Promise Resolved');
+                    } else {
+                        reject('Promise Rejected');
+                    }
+                });
+            }
+            
+            checkPromise('yes')
+                .then(result => {
+                    console.log(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            
+            checkPromise()
+                .then(result => {
+                    console.log(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                });            
+        </pre>
+        <br/>
+
+        <br/>
+        Q5 => Create examples to explain callback function.
+        <pre>
+            Ans : Using a Callback for Asynchronous Execution :-
+                  
+            function asyncTask(callback) {
+              setTimeout(function () {
+               const result = "Async task completed";
+                callback(result);
+           }, 2000);
+        }
+
+         function handleResult(data) {
+           console.log(data);
+        }
+
+         asyncTask(handleResult);
+        console.log("This runs before the async task completes");
+
+        </pre>
+        <br/>
+
+        <br/>
+        Q6 => Create examples to explain callback hell function.
+        <pre>
+            Ans : function stepOne(data, callback) {
+                setTimeout(function() {
+                    console.log("Step 1 completed with data:", data);
+                    callback(data + 10);
+                }, 1000);
+            }
+            
+            function stepTwo(data, callback) {
+                setTimeout(function() {
+                    console.log("Step 2 completed with data:", data);
+                    callback(data * 3);
+                }, 1500);
+            }
+            
+            function stepThree(data, callback) {
+                setTimeout(function() {
+                    console.log("Step 3 completed with data:", data);
+                    callback(data - 5);
+                }, 1200);
+            }
+            
+            function stepFour(data) {
+                setTimeout(function() {
+                    console.log("Step 4 completed with data:", data);
+                }, 2000);
+            }
+            
+            stepOne(5, function(resultStepOne) {
+                stepTwo(resultStepOne, function(resultStepTwo) {
+                    stepThree(resultStepTwo, function(resultStepThree) {
+                        stepFour(resultStepThree);
+                    });
+                });
+            });            
+        </pre>
+        <br/>
+
+        <br/>
+        Q7 => Create examples to explain promises function.
+        <pre>
+            Ans : Basic Promise :- 
+            const myPromise = new Promise((resolve, reject) => {
+    
+                setTimeout(() => {
+                    const randomNumber = Math.random();
+                    if (randomNumber > 0.5) {
+                        resolve(randomNumber);
+                    } else {
+                        reject("Random number is too small");
+                    }
+                }, 1000);
+            });
+            
+            myPromise.then(result => {
+                console.log("Promise resolved with result:", result);
+            }).catch(error => {
+                console.error("Promise rejected with error:", error);
+            });            
+        </pre>
+        <br/>
+
+        <br/>
+        Q8 => Create examples to explain async await function.
+        <pre>
+            Ans : Basic async Function :-
+
+            async function fetchData() {
+                return "Data fetched";
+            }
+            
+            async function main() {
+                const result = await fetchData();
+                console.log(result);
+            }
+            
+            main();
+        </pre>
+        <br/>
+
+        <br/>
+        Q9 => Create examples to explain promise.all function.
+        <pre>
+            Ans : Resolving Multiple Promises with Promise.all :-
+
+            function fetchData(id) {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve(`Data fetched for ID ${id}`);
+                    }, Math.random() * 2000);
+                });
+            }
+            
+            async function main() {
+                const promises = [
+                    fetchData(1),
+                    fetchData(2),
+                    fetchData(3)
+                ];
+            
+                try {
+                    const results = await Promise.all(promises);
+                    console.log("All promises resolved:", results);
+                } catch (error) {
+                    console.error("An error occurred:", error);
+                }
+            }
+            
+            main();            
+        </pre>
+    </h2>
+</body>
+</html>
